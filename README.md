@@ -2,6 +2,8 @@
 
 A working hackathon command center for coordinating a cyber incident and preserving its review record. It includes independent access control, multiple incidents, compromised-data scope, live communications, evidence provenance/quarantine, after-action reports, lessons/improvement actions and tested backup/restore.
 
+The working interface uses compact priority cards, clickable response counts, a phase indicator and separate impact tiles. Full notes and history expand on demand while preserving the ivory, brass and serif visual style. See [the visual workspace guide](aegis-command/README.md#read-the-visual-workspace).
+
 ## Run the prepared demo
 
 Install **Node.js 24+** and **Google Chrome or Chromium**, then run from this repository:

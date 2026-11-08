@@ -9,6 +9,8 @@ import { createApp } from '../server.mjs';
 import { virtualKey, loginPage } from './browser-kit.mjs';
 import { INCIDENT } from '../lib/access.mjs';
 import { sha256 } from '../lib/blobs.mjs';
+import { mutate } from '../lib/incident.mjs';
+import { randomUUID } from 'node:crypto';
 
 const output = resolve('../artifacts/demo-qa'); mkdirSync(output, { recursive: true });
 const started = performance.now(), demo = await startDemo({ headless: true, port: 0 });
@@ -23,6 +25,57 @@ async function audit(page, name) {
 }
 try {
   await audit(maya, 'Overview');
+  await maya.screenshot({ path: join(output, 'overview-desktop.png'), fullPage: true });
+  assert.equal(await maya.locator('.pulse-tile').count(), 4);
+  await maya.getByRole('button', { name: /^Open tasks/ }).click();
+  await maya.getByRole('heading', { name: 'Incident tasks', exact: true }).waitFor();
+  await audit(maya, 'Tasks');
+  const targets = await maya.locator('.task-filter, .task-card button, .task-card summary').evaluateAll(elements => elements.map(element => { const box = element.getBoundingClientRect(); return { width: box.width, height: box.height }; }).filter(box => box.width && box.height));
+  assert(targets.every(box => box.width >= 44 && box.height >= 44), 'Task controls must retain 44px targets');
+  assert.match(await maya.locator('.task-card').first().innerText(), /Critical priority/);
+  await maya.getByRole('button', { name: /^Blocked\s/ }).click();
+  assert.equal(await maya.locator('.task-card').count(), 1);
+  assert.match(await maya.locator('.task-card').innerText(), /Correlate outbound transfer/);
+  await maya.getByRole('button', { name: /^Overdue\s/ }).click();
+  await maya.getByText('No matching tasks.', { exact: true }).waitFor();
+  await maya.getByRole('group', { name: 'Filter tasks' }).getByRole('button', { name: /^All\s/ }).click();
+  const restoreTask = maya.locator('.task-card').filter({ hasText: 'Validate clean restore of customer records' });
+  await restoreTask.getByText('Task details', { exact: true }).click();
+  assert.equal(await restoreTask.locator('details[data-disclosure]').getAttribute('open'), '');
+  await maya.screenshot({ path: join(output, 'tasks-desktop.png'), fullPage: true });
+  for (const width of [320, 720]) {
+    await maya.setViewportSize({ width, height: 900 });
+    assert.equal(await maya.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Task reflow overflow at ' + width);
+    await maya.screenshot({ path: join(output, `tasks-${width}.png`), fullPage: true });
+  }
+  await maya.setViewportSize({ width: 1440, height: 1000 });
+  // An overdue cue must refresh even when no one changes the incident record.
+  const imminent = new Date(Date.now() + 60_000).toISOString();
+  const originalDeadline = await demo.app.store.run(data => {
+    const commander = data.users.find(u => u.username === 'maya');
+    const task = data.incidents[INCIDENT].tasks.find(t => t.title === 'Correlate outbound transfer with file access');
+    const previous = task.dueAt;
+    mutate(data, { kind: 'task-update', id: randomUUID(), entityId: task.id, revision: task.revision, dueAt: imminent, body: 'Synthetic deadline-refresh check' }, commander, INCIDENT);
+    return previous;
+  });
+  await maya.waitForFunction(imminent => [...document.querySelectorAll('.task-card')].some(card => card.textContent.includes('Correlate outbound transfer') && card.querySelector('.deadline')?.title.includes(imminent.slice(11, 19))), imminent);
+  await maya.evaluate(() => { window.aegisRealNow = Date.now; Date.now = () => window.aegisRealNow() + 120_000; });
+  await maya.locator('.task-card').filter({ hasText: 'Correlate outbound transfer' }).locator('.deadline.overdue').waitFor();
+  assert.equal(await restoreTask.locator('details[data-disclosure]').getAttribute('open'), '');
+  assert.match(await maya.locator('.task-card').first().innerText(), /Correlate outbound transfer/);
+  await maya.getByRole('button', { name: /^Overdue\s/ }).click(); assert.equal(await maya.locator('.task-card').count(), 1);
+  await maya.evaluate(() => { Date.now = window.aegisRealNow; delete window.aegisRealNow; });
+  await demo.app.store.run(data => {
+    const commander = data.users.find(u => u.username === 'maya'), task = data.incidents[INCIDENT].tasks.find(t => t.title === 'Correlate outbound transfer with file access');
+    mutate(data, { kind: 'task-update', id: randomUUID(), entityId: task.id, revision: task.revision, dueAt: originalDeadline, body: 'Restore the synthetic presentation deadline' }, commander, INCIDENT);
+  });
+  await maya.getByRole('group', { name: 'Filter tasks' }).getByRole('button', { name: /^All\s/ }).click();
+  result.checks.push('Clickable response counts, priority/overdue order, blocked/overdue task filters, live deadline refresh, retained open details and task reflow');
+  await maya.locator('.rail [data-page=MyTasks]').click();
+  await maya.getByRole('heading', { name: 'My tasks', level: 2, exact: true }).waitFor();
+  await audit(maya, 'My tasks');
+  await maya.screenshot({ path: join(output, 'my-tasks-desktop.png'), fullPage: true });
+  await maya.getByRole('button', { name: 'Open incident tasks', exact: true }).first().click();
   await maya.getByRole('button', { name: 'Scope', exact: true }).click(); await audit(maya, 'Scope');
   await maya.screenshot({ path: join(output, 'scope-desktop.png'), fullPage: true });
   await maya.locator('.skip').focus(); await maya.keyboard.press('Enter');

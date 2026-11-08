@@ -10,7 +10,7 @@ Run from `aegis-command` with Node 24+, installed dependencies and Chrome/Chromi
 | `npm test` | TLS/WebAuthn, permissions/revocation, schema migration, incident/scope, evidence, reports, improvement actions, backup/restore and hostile-input regressions |
 | `npm run test:browser` | Two authenticated responders complete incident/scope workflows, concurrent edits, closure/review/reopening, revocation, mobile layouts and session-cache isolation |
 | `npm run demo:check` | The shipped one-command rehearsal boots four roles, previews/approves/downloads a report, verifies its manifest, restarts and backs up |
-| `npm run verify:demo` | axe WCAG tags on critical screens, keyboard/modal flows, reflow/zoom, evidence, offline retry, completed review/lessons, report export, fresh restore and rehearsal resume |
+| `npm run verify:demo` | axe WCAG tags on critical screens including Tasks, task priority/overdue ordering and filters, deadline refresh, retained open notes, keyboard/modal flows, reflow/zoom, evidence, offline retry, completed review/lessons, report export, fresh restore and rehearsal resume |
 
 Generated evidence is in [`../artifacts/demo-qa/validation-results.json`](../artifacts/demo-qa/validation-results.json), with screenshots and a synthetic sample HTML report/manifest. The JSON identifies automated validation explicitly and records the actual run time and results. It contains no physical key material or production incident data.
 

@@ -1,11 +1,19 @@
 {
   "release": "1.0.0",
   "kind": "Automated validation; not a human usability study or penetration test",
-  "checkedAt": "2026-11-08T16:43:06.259Z",
-  "startupMs": 6618,
+  "checkedAt": "2026-11-08T17:28:44.936Z",
+  "startupMs": 5812,
   "accessibility": [
     {
       "screen": "Overview",
+      "violations": []
+    },
+    {
+      "screen": "Tasks",
+      "violations": []
+    },
+    {
+      "screen": "My tasks",
       "violations": []
     },
     {
@@ -34,6 +42,7 @@
     }
   ],
   "checks": [
+    "Clickable response counts, priority/overdue order, blocked/overdue task filters, live deadline refresh, retained open details and task reflow",
     "Keyboard skip link, action reachability and native modal focus trap",
     "320 CSS pixel reflow and 200% zoom",
     "Quarantined original review and byte-verified controlled download",
@@ -44,6 +53,6 @@
     "Fresh restore, revoked prior sessions, WebAuthn rehearsal-key reauthentication and evidence/record continuity",
     "Resume a prior rehearsal with encrypted virtual-key cache and committed records retained"
   ],
-  "totalMs": 29145,
+  "totalMs": 33398,
   "pass": true
 }

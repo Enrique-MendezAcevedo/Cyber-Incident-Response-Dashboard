@@ -28,9 +28,14 @@ export async function prepareFixture(app, cfg, runRoot) {
       const row = s.scope[i];
       send(alex, { kind: 'scope', entityId: row.id, revision: row.revision, name: row.name, assetIdentifier: ['customer-prod', 'billing-exports', 'identity-directory'][i], owner: row.owner, environment: 'Synthetic production', dataCategory: ['Customer PII (synthetic)', 'Financial exports (synthetic)', 'Account metadata (synthetic)'][i], sensitivity: 'Restricted', confidence: i === 0 ? 'Moderate' : 'Unknown', unknownReason: 'Exposure, integrity and inventory assessments remain under review.', assessedAt: past(20), remediationOwnerId: alex.id, evidenceRefs: i === 0 ? ['EV-ENDPOINT', row.evidence] : [row.evidence], body: row.reason });
     }
-    for (const task of s.tasks.filter(t => !t.systemKind)) {
+    const taskPresentation = [
+      { priority: 'Critical', status: 'In progress', description: 'Validate the recovery baseline before returning the customer portal to service.' },
+      { priority: 'High', status: 'Blocked', description: 'Waiting for the isolated gateway file manifest to reconcile the outbound transfer.' },
+      { priority: 'Normal', status: 'Open', description: 'Identify affected export jobs and record the quantity that remains unknown.' },
+    ];
+    for (const [index, task] of s.tasks.filter(t => !t.systemKind).entries()) {
       const owner = task.owner === 'Maya Chen' ? maya : alex;
-      send(maya, { kind: 'task-update', entityId: task.id, revision: task.revision, ownerId: owner.id, dueAt: future(40), priority: 'High', body: 'Assigned work for the live rehearsal.' });
+      send(maya, { kind: 'task-update', entityId: task.id, revision: task.revision, ownerId: owner.id, dueAt: future(40 + index * 20), ...taskPresentation[index], body: 'Assigned priorities, dependencies and deadlines for the live rehearsal.' });
     }
     send(alex, { kind: 'evidence-create', reference: 'EV-014', title: 'Outbound gateway transfer summary', source: 'Synthetic gateway collector', collector: alex.name, collectedAt: past(30), description: 'Synthetic network log supporting the investigation of an unusual transfer. It does not confirm exfiltration contents.', classification: 'Restricted', storageReference: 'Response kit / synthetic gateway log', sourceDigest: sha256(original) });
     send(alex, { kind: 'evidence-create', reference: 'EV-011', title: 'Billing export job records', source: 'Synthetic scheduler export', collector: alex.name, collectedAt: past(25), description: 'Synthetic job failure metadata retained in the exercise kit.', classification: 'Internal', storageReference: 'Response kit / billing job log reference' });

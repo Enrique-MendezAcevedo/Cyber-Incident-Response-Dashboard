@@ -24,6 +24,17 @@ Keep the terminal open. Use the Chrome Window menu to switch profiles. If the po
 
 The prepared **Northbridge ransomware** incident includes affected data, tasks, facts versus hypotheses, a pending decision, evidence provenance and a quarantined synthetic original, plus an improvement action. Each launch uses a NEW private directory under `runtime/demo-runs/`; it does not reset or overwrite previous runs or ordinary deployment data.
 
+## Read the visual workspace
+
+The interface retains its ivory, brass and serif styling with compact cards and clearer operational hierarchy:
+
+- Click the overview counts to open tasks, affected scope, decisions or critical communications. The phase track identifies the current response stage.
+- Task cards pair a labeled priority accent with status, owner and deadline. Overdue work sorts first, followed by priority and due time. Filter active, blocked, overdue or completed work; the completion bar counts completed tasks and excludes cancelled work from its denominator.
+- Scope cards show six separate impact tiles so recovery does not obscure exposure. Unknown quantities remain explicit.
+- Expand task, assessment, evidence or review details for complete notes, provenance and history. Short summaries preserve access to the full record, and open task details remain open through live updates.
+
+Restart a running server after updating the source, then reload the browser to load the new interface. The existing 1.0 archives retain the interface from their build; these refinements are in the working source.
+
 ## Demo it to judges
 
 Use [PRESENTER_SCRIPT.md](PRESENTER_SCRIPT.md) for the three-minute demonstration.

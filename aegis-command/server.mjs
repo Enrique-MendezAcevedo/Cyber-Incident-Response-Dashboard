@@ -22,7 +22,7 @@ export async function createApp(cfg) {
   const assets = new Map();
   for (const [path, file, type] of [
     ['/', 'index.html', 'text/html'], ['/app.js', 'app.js', 'text/javascript'],
-    ['/auth-ui.js', 'auth-ui.js', 'text/javascript'], ['/forms.js', 'forms.js', 'text/javascript'], ['/review-ui.js', 'review-ui.js', 'text/javascript'], ['/style.css', 'style.css', 'text/css'],
+    ['/auth-ui.js', 'auth-ui.js', 'text/javascript'], ['/forms.js', 'forms.js', 'text/javascript'], ['/review-ui.js', 'review-ui.js', 'text/javascript'], ['/visuals.js', 'visuals.js', 'text/javascript'], ['/style.css', 'style.css', 'text/css'],
   ]) assets.set(path, { body: await readFile(new URL('./web/' + file, import.meta.url)), type });
   const limits = new Map();
   function rate(request, authRoute) {
