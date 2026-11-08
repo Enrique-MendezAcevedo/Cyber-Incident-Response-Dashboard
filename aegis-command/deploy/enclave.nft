@@ -1,0 +1,21 @@
+#!/usr/sbin/nft -f
+# Dedicated appliance only. Review interface/subnet at its physical console.
+# This is a complete appliance ruleset; do not load it onto a shared host.
+flush ruleset
+define enclave_if = "enclave0"
+define enclave_net = 10.77.0.0/24
+table inet aegis {
+  chain input {
+    type filter hook input priority 0; policy drop;
+    iifname "lo" accept
+    ct state invalid drop
+    iifname $enclave_if ip saddr $enclave_net tcp dport 8443 ct state new,established accept
+  }
+  chain forward { type filter hook forward priority 0; policy drop; }
+  chain output {
+    type filter hook output priority 0; policy drop;
+    oifname "lo" accept
+    oifname $enclave_if ip daddr $enclave_net tcp sport 8443 ct state established accept
+    # No new outbound connections, including internet, corporate DNS or SSO.
+  }
+}

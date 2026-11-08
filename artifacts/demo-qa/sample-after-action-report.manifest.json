@@ -1,0 +1,35 @@
+{
+  "schema": "aegis-export-manifest/v1",
+  "id": "31e1229e-6072-4e6e-8956-5b314102bdd5",
+  "incidentId": "IR-2026-017",
+  "classification": "Synthetic exercise — restricted response record",
+  "generatedAt": "2026-11-08T16:43:20.121Z",
+  "sequence": 33,
+  "scope": "Full incident record",
+  "redactions": [],
+  "filename": "IR-2026-017-report.html",
+  "sha256": "a2925efbcb274e99d39c4c4c823d869d60bd838d8711c36bdb1a51bb00d0fee1",
+  "snapshotSha256": "c9cee566a4be1af11ca4e63ea2f3ead773469569630cf5a94b61c6f88dfe0182",
+  "requestedBy": "a77c4e71-7e7c-420f-9ae8-12f127d47c37",
+  "approvedBy": "cb8d7da2-e824-4b8e-a6e2-fe47201f8fe7",
+  "approvedAt": "2026-11-08T16:43:22.490Z",
+  "expiresAt": "2026-11-09T16:43:20.121Z",
+  "evidence": [
+    {
+      "evidenceReference": "EV-014",
+      "attachmentId": "c4d09663-8197-4541-b4c6-dd3c3e2163ac",
+      "originalFilename": "gateway-transfer.log",
+      "bytes": 222,
+      "sha256": "2ea6db8c070cf9d1451d199e80396f8b39804be7b0afa2085370d9456f552fd8",
+      "disposition": "Approved for controlled download"
+    },
+    {
+      "evidenceReference": "EV-RESTORE",
+      "attachmentId": "b4f9d367-c046-4966-8495-00bc72fd3604",
+      "originalFilename": "restore-validation.txt",
+      "bytes": 132,
+      "sha256": "c19516c1ec87fba26a1dd5c78aea05c424f3f897045af8020cb6a51547ee4ffc",
+      "disposition": "Quarantined"
+    }
+  ]
+}

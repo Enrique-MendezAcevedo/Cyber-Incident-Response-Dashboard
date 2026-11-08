@@ -1,0 +1,14 @@
+node_modules/
+runtime/
+*.sqlite*
+*.key
+*.p12
+*.pem
+*.csr
+*.srl
+*.tar.gz
+*.tgz
+*.log
+.env
+playwright-report/
+test-results/

@@ -1,0 +1,29 @@
+{
+  "name": "aegis-command",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "AEGIS_MODE=development node server.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "node test/browser.mjs",
+    "demo": "node scripts/demo.mjs",
+    "demo:check": "node scripts/demo.mjs --headless --smoke --port 0",
+    "verify:demo": "node scripts/verify-demo.mjs",
+    "operator": "node scripts/operator.mjs",
+    "pki": "node scripts/pki.mjs",
+    "bundle": "node scripts/bundle.mjs"
+  },
+  "dependencies": {
+    "@simplewebauthn/server": "14.1.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "playwright-core": "1.65.0"
+  }
+}

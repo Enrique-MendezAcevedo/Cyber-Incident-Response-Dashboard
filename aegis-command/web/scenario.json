@@ -1,0 +1,25 @@
+{
+  "title": "Northbridge ransomware",
+  "phase": "Containing",
+  "scope": [
+    {"name":"Customer records","owner":"Data Operations","volume":"18,000–24,000 records","availability":"Locked","exposure":"Suspected exposure","exfiltration":"Suspected","integrity":"Unknown","containment":"In progress","recovery":"Pending","evidence":"EV-014","reason":"Encrypted database volume and an unusual outbound transfer were observed. Transfer contents are under review.","revision":1},
+    {"name":"Billing exports","owner":"Finance Systems","volume":"Unknown · inventory pending","availability":"Degraded","exposure":"Unknown","exfiltration":"Unknown","integrity":"Unknown","containment":"Pending","recovery":"Pending","evidence":"EV-011","reason":"Scheduled exports stopped after file share isolation.","revision":1},
+    {"name":"Identity directory","owner":"Identity Operations","volume":"1,240 accounts","availability":"Accessible","exposure":"Unknown","exfiltration":"Not observed","integrity":"Suspected alteration","containment":"In progress","recovery":"Pending","evidence":"EV-009","reason":"Unexpected service account changes are under review.","revision":1}
+  ],
+  "tasks": [
+    {"title":"Validate clean restore of customer records","owner":"Alex Rivera","due":"15:30 UTC","done":false},
+    {"title":"Correlate outbound transfer with file access","owner":"Maya Chen","due":"16:00 UTC","done":false},
+    {"title":"Inventory affected billing exports","owner":"Alex Rivera","due":"16:30 UTC","done":false}
+  ],
+  "messages": [
+    {"author":"Maya Chen","body":"Use the response network and clean devices for all incident updates. Confirm receipt before starting recovery work.","time":"2026-11-07T14:28:00Z","critical":true,"acks":[]},
+    {"author":"Alex Rivera","body":"Clean backup selected. I’ll validate the restored customer dataset before updating the scope register.","time":"2026-11-07T14:34:00Z","critical":false,"acks":[]}
+  ],
+  "events": [
+    {"actor":"Alex Rivera","title":"Clean backup selected","detail":"Restore validation is assigned to Alex Rivera.","time":"2026-11-07T14:34:00Z"},
+    {"actor":"Maya Chen","title":"Containment initiated","detail":"Affected file shares isolated. Responders moved to the response network.","time":"2026-11-07T14:26:00Z"},
+    {"actor":"Maya Chen","title":"Incident declared","detail":"Encryption identified on the customer records volume.","time":"2026-11-07T14:12:00Z"}
+  ],
+  "checkpoint": null,
+  "evidence": ["EV-014 · Outbound gateway transfer summary","EV-011 · Billing export job records","EV-009 · Service account change log"]
+}

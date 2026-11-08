@@ -1,0 +1,49 @@
+{
+  "release": "1.0.0",
+  "kind": "Automated validation; not a human usability study or penetration test",
+  "checkedAt": "2026-11-08T16:43:06.259Z",
+  "startupMs": 6618,
+  "accessibility": [
+    {
+      "screen": "Overview",
+      "violations": []
+    },
+    {
+      "screen": "Scope",
+      "violations": []
+    },
+    {
+      "screen": "Scope creation dialog",
+      "violations": []
+    },
+    {
+      "screen": "Evidence",
+      "violations": []
+    },
+    {
+      "screen": "Review and lessons",
+      "violations": []
+    },
+    {
+      "screen": "People",
+      "violations": []
+    },
+    {
+      "screen": "Incident list",
+      "violations": []
+    }
+  ],
+  "checks": [
+    "Keyboard skip link, action reachability and native modal focus trap",
+    "320 CSS pixel reflow and 200% zoom",
+    "Quarantined original review and byte-verified controlled download",
+    "Disconnected draft retention, reconnection, lost response and duplicate-safe retry",
+    "Evidence registration/upload, restored scope without clearing exposure, closure and owner-led review, and completed improvement action",
+    "Authenticated roles, evidence, preview, second-commander export, SHA-256 verification, restart persistence and encrypted backup passed.",
+    "Recent-key verification from the open report dialog retains the pending draft",
+    "Fresh restore, revoked prior sessions, WebAuthn rehearsal-key reauthentication and evidence/record continuity",
+    "Resume a prior rehearsal with encrypted virtual-key cache and committed records retained"
+  ],
+  "totalMs": 29145,
+  "pass": true
+}
